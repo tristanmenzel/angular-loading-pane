@@ -2,6 +2,7 @@ var gulp = require('gulp');
 
 var concat = require('gulp-concat');
 var del = require('del');
+var es = require('event-stream');
 var expect = require('gulp-expect-file');
 var inject = require('gulp-inject');
 var jshint = require('gulp-jshint');
@@ -13,15 +14,20 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var notify = require('gulp-notify');
 
+function dist() {
+  return gulp.dest('./dist/');
+}
+
 function web() {
   return gulp.dest('./web/');
 }
 
 gulp.task('clean', function (cb) {
-  return del(['web/**/*'],
-    { force: true },
+  return del(['web/**/*', 'dist/**/*'],
+    {force: true},
     cb);
 });
+
 
 gulp.task('js', ['clean'], function () {
   return gulp.src([
@@ -30,36 +36,45 @@ gulp.task('js', ['clean'], function () {
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
     .pipe(sourcemaps.init())
+    .pipe(concat('loading-pane.js'))
+    .pipe(dist())
+    .pipe(ngAnnotate());
+
+
+
+});
+
+gulp.task('views', ['clean'], function(){
+  return gulp.src('src/*.tpl.html')
+    .pipe(sourcemaps.init())
+    .pipe(ngHtml2Js({moduleName: 'loadingPane'}))
+    .pipe(concat("loading-pane-views.js"))
+    .pipe(dist());
+});
+
+gulp.task('bundle', ['js', 'views'], function(){
+  return gulp.src([
+    'dist/loading-pane.js',
+    'dist/loading-pane-views.js'  ])
     .pipe(concat('loading-pane.min.js'))
-    .pipe(ngAnnotate())
     // Note: ugilfy + sourcemaps is bugged (so you'll need to comment this out as needed).
     .pipe(uglify())
     .pipe(sourcemaps.write('./maps/'))
+    .pipe(dist())
     .pipe(web());
 });
 
 gulp.task('sass', ['clean'], function () {
 
-  var scss = gulp.src([
+  return gulp.src([
     'src/*.scss'])
-    .pipe(sass());
-
-  return scss
+    .pipe(sass())
+    .pipe(dist())
     .pipe(sourcemaps.init())
     .pipe(pleeease())
     .pipe(concat('loading-pane.min.css'))
     .pipe(sourcemaps.write('./maps/'))
-    .pipe(web());
-});
-
-gulp.task('views', ['clean'], function () {
-  return gulp.src('src/*.tpl.html')
-    .pipe(sourcemaps.init())
-    .pipe(ngHtml2Js({ moduleName: 'loadingPane' }))
-    .pipe(concat("loading-pane-views.min.js"))
-    // Note: ugilfy + sourcemaps is bugged (so you'll need to comment this out as needed).
-    .pipe(uglify())
-    .pipe(sourcemaps.write('./maps/'))
+    .pipe(dist())
     .pipe(web());
 });
 
@@ -79,16 +94,15 @@ gulp.task('vendor', ['clean'], function () {
     .pipe(sourcemaps.write('./maps/'))
     .pipe(web());
 });
-gulp.task('html', ['js', 'vendor', 'sass', 'views'], function () {
+gulp.task('html', ['bundle', 'vendor', 'sass'], function () {
   return gulp.src('app/index.html')
     .pipe(inject(
       gulp.src([
         'web/vendor.min.js',
         'web/loading-pane.min.js',
-        'web/loading-pane-views.min.js',
         'web/loading-pane.min.css'
-      ], { read: false }),
-      { ignorePath: 'web/', addRootSlash: false }
+      ], {read: false}),
+      {ignorePath: 'web/', addRootSlash: false}
     ))
     .pipe(web())
     .pipe(notify({
@@ -97,6 +111,7 @@ gulp.task('html', ['js', 'vendor', 'sass', 'views'], function () {
     }));
 });
 
-gulp.task('default',['html'], function() {
+
+gulp.task('default', ['html'], function () {
   // place code for your default task here
 });
