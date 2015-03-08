@@ -21,7 +21,7 @@
   },
   "devDependencies": {
   },
-  "main": "src/loading-pane.js",
+  "main": "dist/loading-pane.min.js",
   "keywords": [
     "loading",
     "angular"
