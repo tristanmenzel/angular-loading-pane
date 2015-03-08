@@ -1,5 +1,5 @@
 {
-  "name": "loading-pane",
+  "name": "angular-loading-pane",
   "version": "1.0.0",
   "private": false,
   "description": "An angular directive to abstract hiding a section of UI while a process completes.",
