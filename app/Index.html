@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Loading Pane Demo</title>
+  <!-- inject:css -->
+  <!-- endinject -->
+</head>
+<body>
+<div ng-app="app" ng-controller="DemoCtrl as vm">
+  <loading-pane tracker="vm.tracker">
+    <h1>Heading</h1>
+    <button ng-click="vm.doStuff()">Click me</button>
+  </loading-pane>
+
+
+</div>
+<!-- inject:js -->
+<!-- endinject -->
+<script>
+  angular.module('app' ,['loadingPane'])
+    .controller('DemoCtrl', function(loading, $q,$timeout){
+    var vm = this;
+      vm.tracker = loading.createTracker();
+
+      vm.doStuff = function(){
+        var deferred = $q.defer();
+        $timeout(function(){
+          deferred.resolve(true);
+        }, 2000);
+        vm.tracker.track(deferred.promise);
+      };
+  })
+</script>
+</body>
+</html>
