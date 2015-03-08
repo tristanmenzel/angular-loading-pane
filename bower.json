@@ -15,13 +15,15 @@
     "test",
     "tests"
   ],
-  "devDependencies": {
+  "dependencies":{
     "angular": "~1.3.9"
   },
-  "main": "app\\index.html",
+  "devDependencies": {
+  },
+  "main": "src/loading-pane.js",
   "keywords": [
     "loading",
     "angular"
   ],
-  "homepage": "https://github.com/tristanmenzel/angular-loading-pane"
+  "homepage": "https://github.com/tristanmenzel/angular-loading-pane.git"
 }
