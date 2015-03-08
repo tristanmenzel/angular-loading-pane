@@ -10,9 +10,9 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "web/*",
-    "app/*",
-    "src/*",
+    "web",
+    "app",
+    "src",
     "test",
     "tests"
   ],
