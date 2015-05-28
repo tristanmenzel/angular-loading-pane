@@ -28,7 +28,15 @@ angular.module('app', ['loadingPane'])`
 ```javascript
 angular.module('app').controller('MyCtrl', function(loading){
     var vm = this;
+    // Tracker with default params
     vm.tracker = loading.createTracker();
+    
+    // Tracker with initial state of incomplete (default is complete)
+    vm.tracker2 = loading.createTracker(false);
+     
+    // Tracker with minimum delay of 1s. Loader will spin for at least 1s even if the promise is complete
+    // (default is 0)
+    vm.tracker3 = loading.createTracker(true, 1000);  
 }
 ```
 
@@ -37,7 +45,22 @@ angular.module('app').controller('MyCtrl', function(loading){
 ```javascript
 ...
 vm.doThing = function(){
-  vm.tracker.track($http.get('http://www.google.com'));
+    // Track a single promise
+    vm.tracker.track($http.get('http://www.google.com'));
+}
+
+vm.doTwoThings = function(){
+    // Track multiple promises (will wait till all promises complete)
+    var d1 = $q.defer(),
+        d2 = $q.defer();
+    $timeout(function () {
+        d1.resolve(true);
+    }, 100);
+    $timeout(function () {
+        d2.resolve(true);
+    }, 4000);
+    vm.tracker2.track(d1.promise);
+    vm.tracker2.track(d2.promise);
 };
 ...
 ```
