@@ -8,19 +8,21 @@
             templateUrl: 'loading-pane.tpl.html'
         };
     }])
-    .factory('loading', [function () {
-        function WorkTracker(isComplete) {
+    .factory('loading', ['$q', '$timeout', function ($q, $timeout) {
+        function WorkTracker(isComplete, minDelayInMs) {
             var self = this;
-            self.complete = isComplete !== false;
+            self.complete = isComplete;
             self.activePromises = 0;
             self.track = function (promise) {
                 self.complete = false;
                 self.activePromises++;
-                return promise.then(function () {
-                    self.completePromise();
-                }, function () {
-                    self.completePromise();
-                });
+                if (minDelayInMs === 0) {
+                    return promise.finally(self.completePromise);
+                } else {
+                    return $q.all([promise, $timeout(function () {
+                    }, minDelayInMs)])
+                        .finally(self.completePromise);
+                }
             };
 
             self.completePromise = function () {
@@ -30,8 +32,8 @@
         }
 
         return {
-            createTracker: function (isComplete) {
-                return new WorkTracker(isComplete);
+            createTracker: function (isComplete, minDelayInMs) {
+                return new WorkTracker(isComplete !== false, minDelayInMs || 0);
             }
         };
     }]);
