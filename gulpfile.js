@@ -38,8 +38,8 @@ gulp.task('js', ['clean'], function () {
         .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail'))
         .pipe(concat('loading-pane.js'))
-        .pipe(dist())
-        .pipe(ngAnnotate());
+        .pipe(ngAnnotate())
+        .pipe(dist());
 
 
 });
