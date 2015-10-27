@@ -1,6 +1,6 @@
 {
   "name": "angular-loading-pane",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "authors": [
     "Tristan Menzel"
   ],
@@ -16,12 +16,15 @@
     "test",
     "tests"
   ],
-  "dependencies":{
-    "angular": "~1.3.9"
+  "dependencies": {
+    "angular": ">=1.3.0"
   },
   "devDependencies": {
   },
-  "main": "dist/loading-pane.min.js",
+  "main": [
+    "dist/loading-pane.min.js",
+    "dist/loading-pane.min.css"
+  ],
   "keywords": [
     "loading",
     "angular"
