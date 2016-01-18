@@ -2,10 +2,10 @@
   $spinnerColor: #428bca;
   position: relative;
 
-  .lp-content, .lp-spinner {
+  > .lp-content, > .lp-spinner {
     transition: opacity 0.3s ease-in-out;
   }
-  .lp-spinner {
+  > .lp-spinner {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -15,7 +15,7 @@
     opacity: 0;
     z-index: 100;
   }
-  .lp-overlay {
+  > .lp-overlay {
     position: absolute;
     left: 0;
     top: 0;
@@ -27,25 +27,25 @@
     z-index: 99;
   }
 
-  &.lp-loading .lp-overlay {
+  &.lp-loading > .lp-overlay {
     display: block;
   }
 
-  &.lp-loading .lp-spinner {
+  &.lp-loading > .lp-spinner {
     display: block;
     opacity: 1;
   }
 
-  &.lp-loading .lp-content,
-  .lp-content {
+  &.lp-loading > .lp-content,
+  > .lp-content {
     opacity: 0;
   }
 
-  &.lp-loaded .lp-content {
+  &.lp-loaded > .lp-content {
     opacity: 1;
   }
 
-  .lp-spinner-icon {
+  > .lp-spinner > .lp-spinner-icon {
     width: 40px;
     height: 40px;
     box-sizing: border-box;
