@@ -9,7 +9,20 @@
     margin-left: -20px;
     margin-top: -20px;
     display: none;
-    opacity: 0; }
+    opacity: 0;
+    z-index: 100; }
+  .loading-pane .lp-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    opacity: 0.01;
+    display: none;
+    z-index: 99; }
+  .loading-pane.lp-loading .lp-overlay {
+    display: block; }
   .loading-pane.lp-loading .lp-spinner {
     display: block;
     opacity: 1; }

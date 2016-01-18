@@ -5,6 +5,11 @@
     <title>Loading Pane Demo</title>
     <!-- inject:css -->
     <!-- endinject -->
+    <style type="text/css">
+        .loading-pane.lp-loading.half-opacity .lp-content{
+            opacity: 0.5;
+        }
+    </style>
 </head>
 <body>
 <div ng-app="app" ng-controller="DemoCtrl as vm">
@@ -19,6 +24,10 @@
         <button ng-click="vm.doShortThing()">Min delay</button>
     </loading-pane>
 
+    <loading-pane class="half-opacity" tracker="vm.tracker3">
+        <h1>Heading 3</h1>
+        <button ng-click="vm.doAnotherThing()">Half opacity</button>
+    </loading-pane>
 
 </div>
 <!-- inject:js -->
@@ -29,6 +38,7 @@
                 var vm = this;
                 vm.tracker = loading.createTracker();
                 vm.tracker2 = loading.createTracker(true, 1000);
+                vm.tracker3 = loading.createTracker(true, 1500);
                 vm.doOneThing = function () {
                     var deferred = $q.defer();
                     $timeout(function () {
@@ -56,6 +66,12 @@
                     deferred.resolve(true);
                     vm.tracker2.track(deferred.promise);
                 };
+
+                vm.doAnotherThing = function(){
+                    var deferred = $q.defer();
+                    deferred.resolve(true);
+                    vm.tracker3.track(deferred.promise);
+                }
 
             })
 </script>

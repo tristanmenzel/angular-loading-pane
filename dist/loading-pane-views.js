@@ -10,6 +10,7 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="lp-spinner">\n' +
     '        <div class="lp-spinner-icon"></div>\n' +
     '    </div>\n' +
+    '    <div class="lp-overlay"></div>\n' +
     '    <div class="lp-content" ng-transclude></div>\n' +
     '</div>');
 }]);
