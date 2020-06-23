@@ -1,10 +1,13 @@
 # angular-loading-pane
 A simple loading pane implementation for angular based on promises.
 
-##Install
+## Install
 `bower install angular-loading-pane`
 
-##Usage
+`npm i angular-loading-pane`
+
+## Usage
+
 **Include css**
 
 ```html
